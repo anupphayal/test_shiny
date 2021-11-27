@@ -20,7 +20,7 @@ library(profvis)
 
 
 
-load("sea_around_us_data_for_shiny.RData")
+load("data/sea_around_us_data_for_shiny.RData")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Indonesia"),
