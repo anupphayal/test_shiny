@@ -69,14 +69,16 @@ server <- function(input, output) {
   
   output$Indonesia <- renderPlot({
     
-    x    <- input$year
-    
+     indo_sau_data <- as.data.table(indo_sau_data)
+   indo_sau_data<-indo_sau_data%>% st_as_sf(sf_column_name = "geometry")
+   tempdat<-subset(indo_sau_data, year==input$year & reporting_status==as.character(input$report) & sector==as.character(input$sector))
    
-    ggplot(data=ap, alpha=95) + geom_sf()+ geom_sf(data=indo)+
-      geom_sf(data=indo_sau_data[indo_sau_data$year==x & indo_sau_data$reporting_status==as.character(input$report) & indo_sau_data$sector==as.character(input$sector),], color = 'grey', alpha=95, aes(fill=(sum))) +
-      scale_fill_viridis(option="magma", name="Tonnes")+ggtitle(paste(as.character(x),as.character(input$report), as.character(input$sector)))
+  
    
-    
+   ggplot(data=ap, alpha=95) + geom_sf()+ geom_sf(data=indo)+
+     geom_sf(data=tempdat, color = 'grey', alpha=95, aes(fill=(sum))) +
+     scale_fill_viridis(option="magma", name="Tonnes")+ggtitle(paste(as.character(input$year),as.character(input$report), as.character(input$sector)))
+       
   }, height=900, width=1100)  #
 }
 
