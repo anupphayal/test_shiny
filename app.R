@@ -16,7 +16,9 @@ library(dashboardthemes)
 library(ggplot2)
 library(viridis)
 library(sf)
-library(tcltk2)
+library(dplyr)
+library(data.table)
+
 
 
 
@@ -69,11 +71,12 @@ server <- function(input, output) {
   
   output$Indonesia <- renderPlot({
     
-     indo_sau_data <- as.data.table(indo_sau_data)
+   
+   indo_sau_data <- as.data.table(indo_sau_data)
    indo_sau_data<-indo_sau_data%>% st_as_sf(sf_column_name = "geometry")
    tempdat<-subset(indo_sau_data, year==input$year & reporting_status==as.character(input$report) & sector==as.character(input$sector))
+
    
-  
    
    ggplot(data=ap, alpha=95) + geom_sf()+ geom_sf(data=indo)+
      geom_sf(data=tempdat, color = 'grey', alpha=95, aes(fill=(sum))) +
